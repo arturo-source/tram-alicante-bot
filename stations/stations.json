@@ -1,0 +1,282 @@
+[
+    {
+        "id": "7",
+        "name": "Albufereta"
+    },
+    {
+        "id": "2",
+        "name": "Alicante - Luceros"
+    },
+    {
+        "id": "38",
+        "name": "Altea"
+    },
+    {
+        "id": "20",
+        "name": "Amerador"
+    },
+    {
+        "id": "108",
+        "name": "Av. Benidorm"
+    },
+    {
+        "id": "106",
+        "name": "Av. Naciones"
+    },
+    {
+        "id": "33",
+        "name": "Benidorm"
+    },
+    {
+        "id": "125",
+        "name": "Benidorm Intermodal"
+    },
+    {
+        "id": "44",
+        "name": "Benissa"
+    },
+    {
+        "id": "49",
+        "name": "Bosc de Diana"
+    },
+    {
+        "id": "115",
+        "name": "Bulevar del Pla"
+    },
+    {
+        "id": "107",
+        "name": "Cabo Huertas"
+    },
+    {
+        "id": "22",
+        "name": "Cala Piteres"
+    },
+    {
+        "id": "31",
+        "name": "Cala finestrat"
+    },
+    {
+        "id": "42",
+        "name": "Calp"
+    },
+    {
+        "id": "35",
+        "name": "Camí Coves"
+    },
+    {
+        "id": "51",
+        "name": "Campo de Golf"
+    },
+    {
+        "id": "40",
+        "name": "Cap Negret"
+    },
+    {
+        "id": "11",
+        "name": "Carrabiners"
+    },
+    {
+        "id": "121",
+        "name": "Ciudad Jardín"
+    },
+    {
+        "id": "9",
+        "name": "Condomina"
+    },
+    {
+        "id": "10",
+        "name": "Costa Blanca"
+    },
+    {
+        "id": "29",
+        "name": "Costera Pastor"
+    },
+    {
+        "id": "21",
+        "name": "Coveta Fumà"
+    },
+    {
+        "id": "28",
+        "name": "Creueta"
+    },
+    {
+        "id": "50",
+        "name": "Dénia"
+    },
+    {
+        "id": "37",
+        "name": "El Albir"
+    },
+    {
+        "id": "17",
+        "name": "El Campello"
+    },
+    {
+        "id": "14",
+        "name": "Fabraquer"
+    },
+    {
+        "id": "116",
+        "name": "Garbinet"
+    },
+    {
+        "id": "39",
+        "name": "Garganes"
+    },
+    {
+        "id": "46",
+        "name": "Gata"
+    },
+    {
+        "id": "113",
+        "name": "Holanda"
+    },
+    {
+        "id": "117",
+        "name": "Hospital"
+    },
+    {
+        "id": "30",
+        "name": "Hospital Vila"
+    },
+    {
+        "id": "111",
+        "name": "Instituto"
+    },
+    {
+        "id": "36",
+        "name": "L'Alfàs del Pí"
+    },
+    {
+        "id": "114",
+        "name": "La Goteta - Plaza Mar 2"
+    },
+    {
+        "id": "6",
+        "name": "La Isleta"
+    },
+    {
+        "id": "102",
+        "name": "La Marina"
+    },
+    {
+        "id": "27",
+        "name": "La Vila Joiosa"
+    },
+    {
+        "id": "47",
+        "name": "La Xara"
+    },
+    {
+        "id": "13",
+        "name": "Les Llances"
+    },
+    {
+        "id": "109",
+        "name": "Londres"
+    },
+    {
+        "id": "8",
+        "name": "Lucentum"
+    },
+    {
+        "id": "4",
+        "name": "MARQ - CASTILLO"
+    },
+    {
+        "id": "118",
+        "name": "Maestro Alonso"
+    },
+    {
+        "id": "3",
+        "name": "Mercado"
+    },
+    {
+        "id": "103",
+        "name": "Miriam Blasco"
+    },
+    {
+        "id": "12",
+        "name": "Muchavista"
+    },
+    {
+        "id": "41",
+        "name": "Olla de Altea"
+    },
+    {
+        "id": "112",
+        "name": "Paises Escandinavos"
+    },
+    {
+        "id": "26",
+        "name": "Paradís"
+    },
+    {
+        "id": "48",
+        "name": "Pedrera-Vessanes"
+    },
+    {
+        "id": "119",
+        "name": "Pintor Gastón Castelló"
+    },
+    {
+        "id": "16",
+        "name": "Pla Barraques"
+    },
+    {
+        "id": "110",
+        "name": "Plaza La Coruña"
+    },
+    {
+        "id": "19",
+        "name": "Poble Espanyol"
+    },
+    {
+        "id": "101",
+        "name": "Porta del Mar"
+    },
+    {
+        "id": "15",
+        "name": "Salesians"
+    },
+    {
+        "id": "5",
+        "name": "Sangueta"
+    },
+    {
+        "id": "124",
+        "name": "Sant Vicent del Raspeig"
+    },
+    {
+        "id": "122",
+        "name": "Santa Isabel"
+    },
+    {
+        "id": "104",
+        "name": "Sergio Cardell"
+    },
+    {
+        "id": "32",
+        "name": "Terra Mitica"
+    },
+    {
+        "id": "45",
+        "name": "Teulada"
+    },
+    {
+        "id": "105",
+        "name": "Tridente"
+    },
+    {
+        "id": "123",
+        "name": "Universitat"
+    },
+    {
+        "id": "25",
+        "name": "Venta Lanuza"
+    },
+    {
+        "id": "120",
+        "name": "Virgen del Remedio"
+    }
+]
