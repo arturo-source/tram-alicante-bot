@@ -34,7 +34,7 @@ func estaciones() string {
 func horarios(args string, day string) []string {
 	var texts []string
 	stationName := args
-	stations, err := stations.SimilarStations(stationName)
+	stations, err := stations.MostSimilarStations(stationName)
 	if err != nil {
 		texts = append(texts, "No se pudo obtener las estaciones")
 		return texts
@@ -81,14 +81,14 @@ func ruta(args, day, hour string) []string {
 		return texts
 	}
 
-	_, err := stations.SimilarStations("")
+	_, err := stations.MostSimilarStations("")
 	if err != nil {
 		texts = append(texts, "No se pudo obtener las estaciones")
 		return texts
 	}
 
 	getStationName := func(station string) (stationId string, isValid bool) {
-		stationsFrom, _ := stations.SimilarStations(station)
+		stationsFrom, _ := stations.MostSimilarStations(station)
 		if len(stationsFrom) == 0 {
 			text := `No se encontró ninguna estación con el nombre "%s"`
 			texts = append(texts, fmt.Sprintf(text, station))

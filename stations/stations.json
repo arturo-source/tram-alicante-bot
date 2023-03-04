@@ -1,282 +1,352 @@
 [
     {
         "id": "7",
-        "name": "Albufereta"
+        "name": "Albufereta",
+        "alternative": "Albufereta"
     },
     {
         "id": "2",
-        "name": "Alicante - Luceros"
+        "name": "Alicante - Luceros",
+        "alternative": "Luceros"
     },
     {
         "id": "38",
-        "name": "Altea"
+        "name": "Altea",
+        "alternative": "Altea"
     },
     {
         "id": "20",
-        "name": "Amerador"
+        "name": "Amerador",
+        "alternative": "Amerador"
     },
     {
         "id": "108",
-        "name": "Av. Benidorm"
+        "name": "Av. Benidorm",
+        "alternative": "Avenida Benidorm"
     },
     {
         "id": "106",
-        "name": "Av. Naciones"
+        "name": "Av. Naciones",
+        "alternative": "Avenida Naciones"
     },
     {
         "id": "33",
-        "name": "Benidorm"
+        "name": "Benidorm",
+        "alternative": "Benidorm"
     },
     {
         "id": "125",
-        "name": "Benidorm Intermodal"
+        "name": "Benidorm Intermodal",
+        "alternative": "Intermodal"
     },
     {
         "id": "44",
-        "name": "Benissa"
+        "name": "Benissa",
+        "alternative": "Benissa"
     },
     {
         "id": "49",
-        "name": "Bosc de Diana"
+        "name": "Bosc de Diana",
+        "alternative": "Bosque de Diana"
     },
     {
         "id": "115",
-        "name": "Bulevar del Pla"
+        "name": "Bulevar del Pla",
+        "alternative": "Bulevar"
     },
     {
         "id": "107",
-        "name": "Cabo Huertas"
+        "name": "Cabo Huertas",
+        "alternative": "Cabo"
     },
     {
         "id": "22",
-        "name": "Cala Piteres"
+        "name": "Cala Piteres",
+        "alternative": "Piteres"
     },
     {
         "id": "31",
-        "name": "Cala finestrat"
+        "name": "Cala finestrat",
+        "alternative": "Finestrat"
     },
     {
         "id": "42",
-        "name": "Calp"
+        "name": "Calp",
+        "alternative": "Calpe"
     },
     {
         "id": "35",
-        "name": "Camí Coves"
+        "name": "Camí Coves",
+        "alternative": "Cami Coves"
     },
     {
         "id": "51",
-        "name": "Campo de Golf"
+        "name": "Campo de Golf",
+        "alternative": "Campo de Golf"
     },
     {
         "id": "40",
-        "name": "Cap Negret"
+        "name": "Cap Negret",
+        "alternative": "Cap Negret"
     },
     {
         "id": "11",
-        "name": "Carrabiners"
+        "name": "Carrabiners",
+        "alternative": "Carrabiners"
     },
     {
         "id": "121",
-        "name": "Ciudad Jardín"
+        "name": "Ciudad Jardín",
+        "alternative": "Ciutat Jardi"
     },
     {
         "id": "9",
-        "name": "Condomina"
+        "name": "Condomina",
+        "alternative": "Condomina"
     },
     {
         "id": "10",
-        "name": "Costa Blanca"
+        "name": "Costa Blanca",
+        "alternative": "Costa Blanca"
     },
     {
         "id": "29",
-        "name": "Costera Pastor"
+        "name": "Costera Pastor",
+        "alternative": "Costera Pastor"
     },
     {
         "id": "21",
-        "name": "Coveta Fumà"
+        "name": "Coveta Fumà",
+        "alternative": "Coveta Fuma"
     },
     {
         "id": "28",
-        "name": "Creueta"
+        "name": "Creueta",
+        "alternative": "Creueta"
     },
     {
         "id": "50",
-        "name": "Dénia"
+        "name": "Dénia",
+        "alternative": "Denia"
     },
     {
         "id": "37",
-        "name": "El Albir"
+        "name": "El Albir",
+        "alternative": "Albir"
     },
     {
         "id": "17",
-        "name": "El Campello"
+        "name": "El Campello",
+        "alternative": "Campello"
     },
     {
         "id": "14",
-        "name": "Fabraquer"
+        "name": "Fabraquer",
+        "alternative": "Fabraquer"
     },
     {
         "id": "116",
-        "name": "Garbinet"
+        "name": "Garbinet",
+        "alternative": "Garbinet"
     },
     {
         "id": "39",
-        "name": "Garganes"
+        "name": "Garganes",
+        "alternative": "Garganes"
     },
     {
         "id": "46",
-        "name": "Gata"
+        "name": "Gata",
+        "alternative": "Gata"
     },
     {
         "id": "113",
-        "name": "Holanda"
+        "name": "Holanda",
+        "alternative": "Holanda"
     },
     {
         "id": "117",
-        "name": "Hospital"
+        "name": "Hospital",
+        "alternative": "Hospital"
     },
     {
         "id": "30",
-        "name": "Hospital Vila"
+        "name": "Hospital Vila",
+        "alternative": "Hospital Vila"
     },
     {
         "id": "111",
-        "name": "Instituto"
+        "name": "Instituto",
+        "alternative": "Instituto"
     },
     {
         "id": "36",
-        "name": "L'Alfàs del Pí"
+        "name": "L'Alfàs del Pí",
+        "alternative": "Alfas del Pi"
     },
     {
         "id": "114",
-        "name": "La Goteta - Plaza Mar 2"
+        "name": "La Goteta - Plaza Mar 2",
+        "alternative": "La Goteta"
     },
     {
         "id": "6",
-        "name": "La Isleta"
+        "name": "La Isleta",
+        "alternative": "Isleta"
     },
     {
         "id": "102",
-        "name": "La Marina"
+        "name": "La Marina",
+        "alternative": "La Marina"
     },
     {
         "id": "27",
-        "name": "La Vila Joiosa"
+        "name": "La Vila Joiosa",
+        "alternative": "Vila Joiosa"
     },
     {
         "id": "47",
-        "name": "La Xara"
+        "name": "La Xara",
+        "alternative": "La Xara"
     },
     {
         "id": "13",
-        "name": "Les Llances"
+        "name": "Les Llances",
+        "alternative": "Llances"
     },
     {
         "id": "109",
-        "name": "Londres"
+        "name": "Londres",
+        "alternative": "Londres"
     },
     {
         "id": "8",
-        "name": "Lucentum"
+        "name": "Lucentum",
+        "alternative": "Lucentum"
     },
     {
         "id": "4",
-        "name": "MARQ - CASTILLO"
+        "name": "MARQ - CASTILLO",
+        "alternative": "Marq"
     },
     {
         "id": "118",
-        "name": "Maestro Alonso"
+        "name": "Maestro Alonso",
+        "alternative": "Maestro Alonso"
     },
     {
         "id": "3",
-        "name": "Mercado"
+        "name": "Mercado",
+        "alternative": "Mercado"
     },
     {
         "id": "103",
-        "name": "Miriam Blasco"
+        "name": "Miriam Blasco",
+        "alternative": "Miriam Blasco"
     },
     {
         "id": "12",
-        "name": "Muchavista"
+        "name": "Muchavista",
+        "alternative": "Muchavista"
     },
     {
         "id": "41",
-        "name": "Olla de Altea"
+        "name": "Olla de Altea",
+        "alternative": "Olla de Altea"
     },
     {
         "id": "112",
-        "name": "Paises Escandinavos"
+        "name": "Paises Escandinavos",
+        "alternative": "Paises Escandinavos"
     },
     {
         "id": "26",
-        "name": "Paradís"
+        "name": "Paradís",
+        "alternative": "Paradis"
     },
     {
         "id": "48",
-        "name": "Pedrera-Vessanes"
+        "name": "Pedrera-Vessanes",
+        "alternative": "Pedrera Vessanes"
     },
     {
         "id": "119",
-        "name": "Pintor Gastón Castelló"
+        "name": "Pintor Gastón Castelló",
+        "alternative": "Gaston Castello"
     },
     {
         "id": "16",
-        "name": "Pla Barraques"
+        "name": "Pla Barraques",
+        "alternative": "Pla Barraques"
     },
     {
         "id": "110",
-        "name": "Plaza La Coruña"
+        "name": "Plaza La Coruña",
+        "alternative": "Plaza Coruna"
     },
     {
         "id": "19",
-        "name": "Poble Espanyol"
+        "name": "Poble Espanyol",
+        "alternative": "Poble Espanyol"
     },
     {
         "id": "101",
-        "name": "Porta del Mar"
+        "name": "Porta del Mar",
+        "alternative": "Porta del Mar"
     },
     {
         "id": "15",
-        "name": "Salesians"
+        "name": "Salesians",
+        "alternative": "Salesians"
     },
     {
         "id": "5",
-        "name": "Sangueta"
+        "name": "Sangueta",
+        "alternative": "Sangueta"
     },
     {
         "id": "124",
-        "name": "Sant Vicent del Raspeig"
+        "name": "Sant Vicent del Raspeig",
+        "alternative": "San Vicente"
     },
     {
         "id": "122",
-        "name": "Santa Isabel"
+        "name": "Santa Isabel",
+        "alternative": "Santa Isabel"
     },
     {
         "id": "104",
-        "name": "Sergio Cardell"
+        "name": "Sergio Cardell",
+        "alternative": "Sergio Cardell"
     },
     {
         "id": "32",
-        "name": "Terra Mitica"
+        "name": "Terra Mitica",
+        "alternative": "Terra Mitica"
     },
     {
         "id": "45",
-        "name": "Teulada"
+        "name": "Teulada",
+        "alternative": "Teulada"
     },
     {
         "id": "105",
-        "name": "Tridente"
+        "name": "Tridente",
+        "alternative": "Tridente"
     },
     {
         "id": "123",
-        "name": "Universitat"
+        "name": "Universitat",
+        "alternative": "Universidad de Alicante"
     },
     {
         "id": "25",
-        "name": "Venta Lanuza"
+        "name": "Venta Lanuza",
+        "alternative": "Venta Lanuza"
     },
     {
         "id": "120",
-        "name": "Virgen del Remedio"
+        "name": "Virgen del Remedio",
+        "alternative": "Virgen del Remedio"
     }
 ]

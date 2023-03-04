@@ -7,8 +7,11 @@ import (
 )
 
 type Estacion struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+	Alternative string `json:"alternative"`
+
+	levDistance int
 }
 
 func AllStations() ([]Estacion, error) {
@@ -27,33 +30,73 @@ func AllStations() ([]Estacion, error) {
 	return stops, nil
 }
 
-func SimilarStations(station string) ([]Estacion, error) {
+func MostSimilarStations(station string) ([]Estacion, error) {
+	var mostSimilars []Estacion
+	var minDistance int
 	stops, err := AllStations()
 	if err != nil {
-		return nil, err
-	}
-	station = strings.ToLower(station)
-	stationWords := strings.Split(station, " ")
-
-	isSearchable := func(word string) bool {
-		return len(word) > 3
+		return mostSimilars, err
 	}
 
-	var similarStops []Estacion
+	for i := range stops {
+		levName := levenshteinDistance(station, stops[i].Name)
+		levAlter := levenshteinDistance(station, stops[i].Alternative)
 
-	for _, stop := range stops {
-		stopName := strings.ToLower(stop.Name)
+		stops[i].levDistance = min(levName, levAlter)
 
-		for _, word := range stationWords {
-			if !isSearchable(word) {
-				continue
-			}
+		if i == 0 || stops[i].levDistance < minDistance {
+			minDistance = stops[i].levDistance
+		}
+	}
 
-			if strings.Contains(stopName, word) {
-				similarStops = append(similarStops, stop)
+	for _, s := range stops {
+		if s.levDistance == minDistance {
+			mostSimilars = append(mostSimilars, s)
+		}
+	}
+
+	return mostSimilars, nil
+}
+
+func levenshteinDistance(s, t string) int {
+	s = strings.ToLower(s)
+	t = strings.ToLower(t)
+
+	m := len(s)
+	n := len(t)
+
+	d := make([][]int, m+1)
+	for i := range d {
+		d[i] = make([]int, n+1)
+	}
+
+	for i := 0; i <= m; i++ {
+		d[i][0] = i
+	}
+
+	for j := 0; j <= n; j++ {
+		d[0][j] = j
+	}
+
+	for j := 1; j <= n; j++ {
+		for i := 1; i <= m; i++ {
+			if s[i-1] == t[j-1] {
+				d[i][j] = d[i-1][j-1]
+			} else {
+				d[i][j] = min(d[i-1][j]+1, d[i][j-1]+1, d[i-1][j-1]+1)
 			}
 		}
 	}
 
-	return similarStops, nil
+	return d[m][n]
+}
+
+func min(n ...int) int {
+	min := n[0]
+	for _, i := range n {
+		if i < min {
+			min = i
+		}
+	}
+	return min
 }
