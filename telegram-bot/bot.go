@@ -71,6 +71,24 @@ func horarios(args string, day string) []string {
 	return texts
 }
 
+func getStationName(station string) (string, error) {
+	stationsFrom, _ := stations.MostSimilarStations(station)
+	if len(stationsFrom) == 0 {
+		return "", fmt.Errorf("No se encontró ninguna estación con el nombre %s", station)
+	}
+
+	if len(stationsFrom) > 1 {
+		textTemplate := `No se puede obtener la ruta porque varias estaciones coinciden con el nombre "%s":` + END_LINE
+		for _, s := range stationsFrom {
+			textTemplate += s.Name + END_LINE
+		}
+
+		return "", fmt.Errorf(textTemplate, station)
+	}
+
+	return stationsFrom[0].Id, nil
+}
+
 func ruta(args, day, hour string) []string {
 	var texts []string
 	route := strings.Split(args, "-")
@@ -87,34 +105,18 @@ func ruta(args, day, hour string) []string {
 		return texts
 	}
 
-	getStationName := func(station string) (stationId string, isValid bool) {
-		stationsFrom, _ := stations.MostSimilarStations(station)
-		if len(stationsFrom) == 0 {
-			text := `No se encontró ninguna estación con el nombre "%s"`
-			texts = append(texts, fmt.Sprintf(text, station))
-
-			return "", false
-		}
-
-		if len(stationsFrom) > 1 {
-			text := `No se puede obtener la ruta porque varias estaciones coinciden con el nombre "%s":` + END_LINE
-			for _, s := range stationsFrom {
-				text += s.Name + END_LINE
-			}
-			texts = append(texts, fmt.Sprintf(text, station))
-
-			return "", false
-		}
-
-		return stationsFrom[0].Id, true
-	}
-
 	from := strings.TrimSpace(route[0])
 	to := strings.TrimSpace(route[1])
-	fromId, isValidFrom := getStationName(from)
-	toId, isValidTo := getStationName(to)
+	fromId, err := getStationName(from)
+	if err != nil {
+		texts = append(texts, err.Error())
+	}
+	toId, err := getStationName(to)
+	if err != nil {
+		texts = append(texts, err.Error())
+	}
 
-	if !isValidFrom || !isValidTo {
+	if fromId == "" || toId == "" {
 		return texts
 	}
 
