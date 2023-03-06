@@ -55,7 +55,7 @@ func horarios(args string, day string) []string {
 
 	for _, station := range stations {
 		text := STATION_SCHEDULES + END_LINE
-		ss, _ := stationschedules.StationSchedules(station.Id, day)
+		ss, _ := stationschedules.Schedules(station.Id, day)
 
 		for _, line := range ss.Lines {
 			text += line.LineName + END_LINE

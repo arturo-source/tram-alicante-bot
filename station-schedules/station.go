@@ -34,11 +34,11 @@ func newLine(lineName string, hours []string) struct {
 	}
 }
 
-func StationSchedules(station, day string) (StationSchedule, error) {
+func Schedules(stationId, day string) (StationSchedule, error) {
 	data := url.Values{}
 	data.Set("auth_token", "b185e97c90d663ece79e3bc794ce8163")
 	data.Set("action", "horarios-estacion")
-	data.Set("estacion", station)
+	data.Set("estacion", stationId)
 	data.Set("dia", day)
 
 	v := url.Values{}
