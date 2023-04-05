@@ -137,11 +137,11 @@ func ruta(args, day, hour string) []string {
 		for i, option := range s.Result {
 			if len(option.Pasos) == 1 {
 				textTemplate = "Opción %d (sin transbordos):\nElige trenes con destino a *%s*."
-				texts = append(texts, fmt.Sprintf(textTemplate, i+1, option.Pasos[0].TrenesConDestino)) //fix...
+				texts = append(texts, fmt.Sprintf(textTemplate, i+1, option.Pasos[0].TrenesConDestino))
 			} else if len(option.Pasos) > 1 {
 				textTemplate = fmt.Sprintf("Opción %d:\n", i+1)
 				for _, paso := range option.Pasos {
-					textTemplate += fmt.Sprintf("Sube en *%s* y baja en *%s*. Escoge entre los trenes con destino *%s*.", paso.Origen, paso.Destino, paso.TrenesConDestino)
+					textTemplate += fmt.Sprintf("- Sube en *%s* (trenes con destino *%s*) y baja en *%s*.\n", paso.Origen, paso.TrenesConDestino, paso.Destino)
 				}
 				texts = append(texts, textTemplate)
 			}
@@ -150,7 +150,7 @@ func ruta(args, day, hour string) []string {
 
 	for _, horario := range s.Horarios {
 		if len(horario.Horas) == 0 {
-			textTemplate = "Los trenes con destinos %s no saldrán más el %s a partir de las %s."
+			textTemplate = "Los trenes con destinos *%s* no saldrán más el *%s* a partir de las *%s*."
 			texts = append(texts, fmt.Sprintf(textTemplate, horario.Destinos, day, hour))
 			continue
 		}
@@ -159,7 +159,7 @@ func ruta(args, day, hour string) []string {
 		for _, hour := range horario.Horas {
 			hours = append(hours, hour[0])
 		}
-		textTemplate = "Los trenes con destinos %s salen a las siguientes horas:\n%s"
+		textTemplate = "Los trenes con destinos *%s* salen a las siguientes horas:\n%s"
 		texts = append(texts, fmt.Sprintf(textTemplate, horario.Destinos, strings.Join(hours, "\n")))
 	}
 
