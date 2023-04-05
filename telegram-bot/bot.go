@@ -1,6 +1,7 @@
 package telegrambot
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"os"
@@ -16,11 +17,8 @@ import (
 )
 
 func estaciones() string {
-	var text string
 	stations, _ := stations.AllStations()
-	for _, s := range stations {
-		text += fmt.Sprintln(s.Name)
-	}
+	text := joinStationNames(stations)
 	return text
 }
 
@@ -39,10 +37,7 @@ func horarios(args string, day string) []string {
 	}
 
 	if len(stations) > 1 {
-		text := "Varias estaciones coinciden con ese nombre:\n"
-		for _, s := range stations {
-			text += fmt.Sprintln(s.Name)
-		}
+		text := fmt.Sprint("Varias estaciones coinciden con ese nombre:\n", joinStationNames(stations))
 		texts = append(texts, text)
 	}
 
@@ -64,6 +59,15 @@ func horarios(args string, day string) []string {
 	return texts
 }
 
+func joinStationNames(stations []stations.Estacion) string {
+	var buf bytes.Buffer
+	for _, s := range stations {
+		buf.WriteString(s.Name)
+		buf.WriteByte('\n')
+	}
+	return buf.String()
+}
+
 func getStationName(station string) (string, error) {
 	stationsFrom, _ := stations.MostSimilarStations(station)
 	if len(stationsFrom) == 0 {
@@ -71,12 +75,7 @@ func getStationName(station string) (string, error) {
 	}
 
 	if len(stationsFrom) > 1 {
-		textTemplate := fmt.Sprintln("No se puede obtener la ruta porque varias estaciones coinciden con el nombre %s:")
-		for _, s := range stationsFrom {
-			textTemplate = fmt.Sprintln(textTemplate, s.Name)
-		}
-
-		return "", fmt.Errorf(textTemplate, station)
+		return "", fmt.Errorf("No se puede obtener la ruta porque varias estaciones coinciden con el nombre %s:\n%s", station, joinStationNames(stationsFrom))
 	}
 
 	return stationsFrom[0].Id, nil
@@ -133,11 +132,11 @@ func ruta(args, day, hour string) []string {
 				textTemplate = "Opción %d (sin transbordos):\nPuedes coger trenes con destino a %s."
 				texts = append(texts, fmt.Sprintf(textTemplate, i+1, option.Pasos[0].TrenesConDestino))
 			} else if len(option.Pasos) > 1 {
-				textTemplate = fmt.Sprintln("Opción %d:")
+				textTemplate = fmt.Sprintf("Opción %d:\n", i+1)
 				for _, paso := range option.Pasos {
 					textTemplate = fmt.Sprintln(textTemplate, "Sube en ", paso.Origen, " y baja en ", paso.Destino, ". Sube a un tren con algún destino ", paso.TrenesConDestino, ".")
 				}
-				texts = append(texts, fmt.Sprintf(textTemplate, i+1))
+				texts = append(texts, textTemplate)
 			}
 		}
 	}
@@ -209,24 +208,36 @@ func siguiente(args, day, hour string) []string {
 	firstOpt := r.Data[0]
 	texts = append(texts, fmt.Sprintf(textTemplate, firstOpt.Origen, firstOpt.Destino, firstOpt.Duracion, firstOpt.Zonas))
 
+	joinStationNames := func(stations []planyourroute.Estacion) string {
+		var buf bytes.Buffer
+		for i := range stations {
+			s := stations[i]
+			buf.WriteString(s.Nombre)
+			buf.WriteByte('(')
+			buf.WriteString(s.Hora)
+			buf.WriteByte(')')
+
+			if i < len(stations)-1 {
+				buf.WriteString(", ")
+			}
+		}
+		return buf.String()
+	}
+
 	for i, option := range r.Data {
 		text := fmt.Sprintf("Opción %d: %d transbordos. Sale a las %s, y llega a las %s.\n", i+1, len(option.Pasos)-1, option.HoraInicio, option.HoraFin)
 		for j, paso := range option.Pasos {
-			text += fmt.Sprintf("1. Sube al tren con destino %s en la parada %s.\n", paso.TrenConDestino, paso.Origen)
+			text += fmt.Sprintln("1. Sube al tren con destino ", paso.TrenConDestino, " en la parada ", paso.Origen, ".")
 
-			text += "2. Pasarás por las siguientes paradas: "
-			for _, estacion := range paso.Estaciones {
-				text += fmt.Sprint(estacion.Nombre, " (", estacion.Hora, "), ")
-			}
-			text += "\n"
+			text += fmt.Sprintln("2. Pasarás por las siguientes paradas: ", joinStationNames(paso.Estaciones))
 
 			if j == len(option.Pasos)-1 {
-				text += fmt.Sprintf("3. Baja en la parada %s.", paso.Destino)
+				text += fmt.Sprintln("3. Baja en la parada ", paso.Destino, ".")
 			} else {
-				text += fmt.Sprintf("3. Baja en la parada %s.", option.Pasos[j+1].Origen)
+				text += fmt.Sprintln("3. Baja en la parada ", option.Pasos[j+1].Origen, ".")
 			}
 
-			text += "\n\n"
+			text += "\n"
 		}
 		texts = append(texts, text)
 	}
