@@ -290,12 +290,12 @@ func responseCommand(msg *tgbotapi.Message) []string {
 	default:
 		text :=
 			`Comandos disponibles:
-/estaciones -> Lista de nombres de las estaciones.
-/horarios luceros -> Lista los horarios de luceros hoy.
-/ruta luceros - universidad -> Lista los horarios de esta ruta.
-/siguiente luceros - universidad -> Muestra la hora del siguiente tram que va de luceros a la universidad.
+*/estaciones:* Lista de nombres de las estaciones.
+*/horarios luceros:* Lista los horarios de luceros hoy.
+*/ruta luceros - universidad:* Lista los horarios de esta ruta (es la opción más compleja).
+*/siguiente luceros - universidad:* Muestra la hora del siguiente tram que va desde luceros hasta la universidad.
 
-Además puedes responder a los mensajes enviados por mí poniendo la fecha "%s", la hora "%s", o la fecha y hora "%s %s". Por defecto se usará la fecha y hora actual.
+Además puedes responder a los mensajes enviados por ti poniendo la fecha "%s", la hora "%s", o la fecha y hora "%s %s". Por defecto se usará la fecha y hora actual.
 `
 		texts = append(texts, fmt.Sprintf(text, currDay, currHour, currDay, currHour))
 	}
