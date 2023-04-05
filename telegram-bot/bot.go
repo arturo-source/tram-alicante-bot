@@ -46,7 +46,7 @@ func horarios(args string, day string) []string {
 		ss, _ := stationschedules.Schedules(station.Id, day)
 
 		for _, line := range ss.Lines {
-			text = fmt.Sprintln(text, line.LineName)
+			text = fmt.Sprintln(text, line.LineName) //do with buffer
 			for _, hour := range line.Hours {
 				text = fmt.Sprintln(text, "- ", hour)
 			}
@@ -86,7 +86,7 @@ func ruta(args, day, hour string) []string {
 	route := strings.Split(args, "-")
 
 	if len(route) < 2 {
-		text := "Debes especificar la ruta con el formato '/ruta origen - destino'"
+		text := "Debes especificar la ruta con el formato */ruta origen - destino*"
 		texts = append(texts, text)
 		return texts
 	}
@@ -120,7 +120,7 @@ func ruta(args, day, hour string) []string {
 		texts = append(texts, "Hay un aviso: "+s.Avisos)
 	}
 
-	textTemplate := "Desde %s hasta %s, se tarda ~%d minutos y son ~%d metros. Recorrerás las zonas %s. "
+	textTemplate := "Desde *%s* hasta *%s*, se tarda *~%d* minutos y son *~%d* metros. Recorrerás las zonas *%s*. "
 	if len(s.Result) > 1 {
 		textTemplate += fmt.Sprintf("Encontrarás %d opciones.", len(s.Result))
 	}
@@ -129,12 +129,12 @@ func ruta(args, day, hour string) []string {
 	if len(s.Result) > 1 {
 		for i, option := range s.Result {
 			if len(option.Pasos) == 1 {
-				textTemplate = "Opción %d (sin transbordos):\nPuedes coger trenes con destino a %s."
-				texts = append(texts, fmt.Sprintf(textTemplate, i+1, option.Pasos[0].TrenesConDestino))
+				textTemplate = "Opción %d (sin transbordos):\nElige trenes con destino a *%s*."
+				texts = append(texts, fmt.Sprintf(textTemplate, i+1, option.Pasos[0].TrenesConDestino)) //fix...
 			} else if len(option.Pasos) > 1 {
 				textTemplate = fmt.Sprintf("Opción %d:\n", i+1)
 				for _, paso := range option.Pasos {
-					textTemplate = fmt.Sprintln(textTemplate, "Sube en ", paso.Origen, " y baja en ", paso.Destino, ". Sube a un tren con algún destino ", paso.TrenesConDestino, ".")
+					textTemplate += fmt.Sprintf("Sube en *%s* y baja en *%s*. Escoge entre los trenes con destino *%s*.", paso.Origen, paso.Destino, paso.TrenesConDestino)
 				}
 				texts = append(texts, textTemplate)
 			}
@@ -164,7 +164,7 @@ func siguiente(args, day, hour string) []string {
 	route := strings.Split(args, "-")
 
 	if len(route) < 2 {
-		text := "Debes especificar la ruta con el formato '/siguiente origen - destino'"
+		text := "Debes especificar la ruta con el formato */siguiente origen - destino*"
 		texts = append(texts, text)
 		return texts
 	}
@@ -201,7 +201,7 @@ func siguiente(args, day, hour string) []string {
 		return texts
 	}
 
-	textTemplate := "El siguiente tram desde %s hasta %s, tiene una duración aproximada de %d min. Recorrerás las zonas %s. "
+	textTemplate := "El siguiente tram desde *%s* hasta *%s*, tiene una duración aproximada de *%d* min. Recorrerás las zonas *%s*. "
 	if len(r.Data) > 1 {
 		textTemplate += fmt.Sprintf("Encontrarás %d opciones.", len(r.Data))
 	}
@@ -225,19 +225,17 @@ func siguiente(args, day, hour string) []string {
 	}
 
 	for i, option := range r.Data {
-		text := fmt.Sprintf("Opción %d: %d transbordos. Sale a las %s, y llega a las %s.\n", i+1, len(option.Pasos)-1, option.HoraInicio, option.HoraFin)
+		text := fmt.Sprintf("Opción %d: %d transbordos. Sale a las *%s*, y llega a las *%s*.\n", i+1, len(option.Pasos)-1, option.HoraInicio, option.HoraFin)
 		for j, paso := range option.Pasos {
-			text += fmt.Sprintln("1. Sube al tren con destino ", paso.TrenConDestino, " en la parada ", paso.Origen, ".")
+			text += fmt.Sprintf("1. Sube al tren con destino *%s* en la parada *%s*.\n", paso.TrenConDestino, paso.Origen)
 
-			text += fmt.Sprintln("2. Pasarás por las siguientes paradas: ", joinStationNames(paso.Estaciones))
+			text += fmt.Sprintln("2. Pasarás por las siguientes paradas:", joinStationNames(paso.Estaciones))
 
-			if j == len(option.Pasos)-1 {
-				text += fmt.Sprintln("3. Baja en la parada ", paso.Destino, ".")
-			} else {
-				text += fmt.Sprintln("3. Baja en la parada ", option.Pasos[j+1].Origen, ".")
+			dest := paso.Destino
+			if j < len(option.Pasos)-1 {
+				dest = option.Pasos[j+1].Origen
 			}
-
-			text += "\n"
+			text += fmt.Sprintf("3. Baja en la parada *%s*.\n\n", dest)
 		}
 		texts = append(texts, text)
 	}
@@ -257,7 +255,7 @@ func responseCommand(msg *tgbotapi.Message) []string {
 		texts = append(texts, resp)
 	case "horarios":
 		if args == "" {
-			text := "El formato correcto es '/horarios nombre_estacion', por ejemplo '/horarios luceros'"
+			text := "El formato correcto es */horarios nombre_estacion*, por ejemplo */horarios luceros*"
 			texts = append(texts, text)
 			break
 		}
@@ -266,7 +264,7 @@ func responseCommand(msg *tgbotapi.Message) []string {
 		texts = append(texts, resp...)
 	case "ruta":
 		if args == "" {
-			text := "El formato correcto es '/ruta origen - destino', por ejemplo '/ruta luceros - universidad'"
+			text := "El formato correcto es */ruta origen - destino*, por ejemplo */ruta luceros - universidad*"
 			texts = append(texts, text)
 			break
 		}
@@ -275,7 +273,7 @@ func responseCommand(msg *tgbotapi.Message) []string {
 		texts = append(texts, resp...)
 	case "siguiente":
 		if args == "" {
-			text := "El formato correcto es '/siguiente origen - destino', por ejemplo '/siguiente luceros - universidad'"
+			text := "El formato correcto es */siguiente origen - destino*, por ejemplo */siguiente luceros - universidad*"
 			texts = append(texts, text)
 			break
 		}
@@ -354,6 +352,7 @@ func Run() error {
 
 		for _, text := range texts {
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, text)
+			msg.ParseMode = tgbotapi.ModeMarkdown
 			if _, err := bot.Send(msg); err != nil {
 				return err
 			}
