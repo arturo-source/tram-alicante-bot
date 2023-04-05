@@ -42,18 +42,25 @@ func horarios(args string, day string) []string {
 	}
 
 	for _, station := range stations {
-		var text string
+		var buf bytes.Buffer
 		ss, _ := stationschedules.Schedules(station.Id, day)
 
 		for _, line := range ss.Lines {
-			text = fmt.Sprintln(text, line.LineName) //do with buffer
+			lastHour := ""
+			buf.WriteString(line.LineName)
 			for _, hour := range line.Hours {
-				text = fmt.Sprintln(text, "- ", hour)
+				currHour := hour[0:2]
+				if currHour != lastHour {
+					lastHour = currHour
+					buf.WriteString("\n- ")
+				}
+				buf.WriteString(hour)
+				buf.WriteByte(' ')
 			}
-			text = fmt.Sprintln(text)
+			buf.WriteString("\n\n")
 		}
 
-		texts = append(texts, text)
+		texts = append(texts, buf.String())
 	}
 
 	return texts
