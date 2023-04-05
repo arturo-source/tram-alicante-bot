@@ -250,10 +250,8 @@ func siguiente(args, day, hour string) []string {
 	return texts
 }
 
-func responseCommand(msg *tgbotapi.Message) []string {
+func responseCommand(msg *tgbotapi.Message, currDay, currHour string) []string {
 	var texts []string
-	currDay := time.Now().Format("2006-01-02")
-	currHour := time.Now().Format("15:04")
 	args := msg.CommandArguments()
 
 	switch msg.Command() {
@@ -303,25 +301,6 @@ Además puedes responder a los mensajes enviados por ti poniendo la fecha "%s", 
 	return texts
 }
 
-// func repliedMessage(msg *tgbotapi.Message) string {
-// 	var text string
-
-// 	firstLine := strings.Split(msg.ReplyToMessage.Text, "\n")[0]
-
-// 	switch firstLine {
-// 	case STATION_SCHEDULES:
-// 		text = "Horarios de la estación"
-// 	case ROUTE_SCHEDULES:
-// 		text = "Horarios de la ruta"
-// 	case PLAN_ROUTE:
-// 		text = "Planificar ruta"
-// 	default:
-// 		text = "I don't know that command"
-// 	}
-
-// 	return text
-// }
-
 func Run() error {
 	bot, err := tgbotapi.NewBotAPI(os.Getenv("TELEGRAM_TOKEN"))
 	if err != nil {
@@ -343,14 +322,25 @@ func Run() error {
 		}
 
 		var texts []string
+		currDay := time.Now().Format("2006-01-02")
+		currHour := time.Now().Format("15:04")
 
-		// if update.Message.ReplyToMessage != nil {
-		// 	text := repliedMessage(update.Message)
-		// 	texts = append(texts, text)
-		// }
+		if update.Message.ReplyToMessage != nil {
+			if _, err := time.Parse("15:04", update.Message.Text); err == nil {
+				texts = responseCommand(update.Message.ReplyToMessage, currDay, update.Message.Text)
+			} else if _, err := time.Parse("2006-01-02", update.Message.Text); err == nil {
+				texts = responseCommand(update.Message.ReplyToMessage, update.Message.Text, currHour)
+			} else if _, err := time.Parse("2006-01-02 15:04", update.Message.Text); err == nil {
+				parts := strings.Split(update.Message.Text, " ")
+				texts = responseCommand(update.Message.ReplyToMessage, parts[0], parts[1])
+			} else {
+				textTemplate := "No entiendo la fecha que me has enviado. Debe ser en formato *%s* o *%s* o *%s %s*"
+				texts = append(texts, fmt.Sprintf(textTemplate, currDay, currHour, currDay, currHour))
+			}
+		}
 
 		if update.Message.IsCommand() {
-			texts = responseCommand(update.Message)
+			texts = responseCommand(update.Message, currDay, currHour)
 		}
 
 		if len(texts) == 0 {
