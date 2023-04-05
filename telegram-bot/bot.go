@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	planyourroute "github.com/arturo-source/tramalicantebot/plan-your-route"
 	routeschedules "github.com/arturo-source/tramalicantebot/route-schedules"
 	stationschedules "github.com/arturo-source/tramalicantebot/station-schedules"
 	stations "github.com/arturo-source/tramalicantebot/stations"
@@ -130,7 +131,7 @@ func ruta(args, day, hour string) []string {
 
 	textTemplate := ROUTE_SCHEDULES + END_LINE + `Desde %s hasta %s, se tarda ~%d minutos y son ~%d metros. Recorrerás las zonas %s.`
 	if len(s.Result) > 1 {
-		textTemplate += fmt.Sprintf("Hay %d opciones.", len(s.Result))
+		textTemplate += fmt.Sprintf("Encontrarás %d opciones.", len(s.Result))
 	}
 	texts = append(texts, fmt.Sprintf(textTemplate, s.Origen.Nombre, s.Destino.Nombre, s.Duracion/60, s.Distancia, s.Zonas))
 
@@ -168,8 +169,77 @@ func ruta(args, day, hour string) []string {
 }
 
 func siguiente(args, day, hour string) []string {
-	// TODO: Implementar
-	return nil
+	var texts []string
+	route := strings.Split(args, "-")
+
+	if len(route) < 2 {
+		text := `Debes especificar la ruta con el formato "/siguiente origen - destino"`
+		texts = append(texts, text)
+		return texts
+	}
+
+	_, err := stations.MostSimilarStations("")
+	if err != nil {
+		texts = append(texts, "No se pudo obtener las estaciones")
+		return texts
+	}
+
+	from := strings.TrimSpace(route[0])
+	to := strings.TrimSpace(route[1])
+	fromId, err := getStationName(from)
+	if err != nil {
+		texts = append(texts, err.Error())
+	}
+	toId, err := getStationName(to)
+	if err != nil {
+		texts = append(texts, err.Error())
+	}
+
+	if fromId == "" || toId == "" {
+		return texts
+	}
+
+	r, err := planyourroute.Route(fromId, toId, day, hour)
+	if err != nil {
+		texts = append(texts, "No se pudo obtener la ruta")
+		return texts
+	}
+
+	if len(r.Data) == 0 {
+		texts = append(texts, "No hay trenes disponibles.")
+		return texts
+	}
+
+	textTemplate := PLAN_ROUTE + END_LINE + `El siguiente tram desde %s hasta %s, tiene una duración aproximada de %d min. Recorrerás las zonas %s. `
+	if len(r.Data) > 1 {
+		textTemplate += fmt.Sprintf("Encontrarás %d opciones.", len(r.Data))
+	}
+	firstOpt := r.Data[0]
+	texts = append(texts, fmt.Sprintf(textTemplate, firstOpt.Origen, firstOpt.Destino, firstOpt.Duracion, firstOpt.Zonas))
+
+	for i, option := range r.Data {
+		text := fmt.Sprintf(`Opción %d: %d transbordos. Sale a las %s, y llega a las %s.`+END_LINE, i+1, len(option.Pasos)-1, option.HoraInicio, option.HoraFin)
+		for j, paso := range option.Pasos {
+			text += fmt.Sprintf("1. Sube al tren con destino %s en la parada %s."+END_LINE, paso.TrenConDestino, paso.Origen)
+
+			text += "2. Pasarás por las siguientes paradas: "
+			for _, estacion := range paso.Estaciones {
+				text += fmt.Sprint(estacion.Nombre, " (", estacion.Hora, "), ")
+			}
+			text += END_LINE
+
+			if j == len(option.Pasos)-1 {
+				text += fmt.Sprintf("3. Baja en la parada %s.", paso.Destino)
+			} else {
+				text += fmt.Sprintf("3. Baja en la parada %s.", option.Pasos[j+1].Origen)
+			}
+
+			text += END_LINE + END_LINE
+		}
+		texts = append(texts, text)
+	}
+
+	return texts
 }
 
 func responseCommand(msg *tgbotapi.Message) []string {
