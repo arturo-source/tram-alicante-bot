@@ -60,6 +60,14 @@ func horarios(args string, day string) []string {
 			buf.WriteString("\n\n")
 		}
 
+		if buf.Len() == 0 {
+			buf.WriteString("La web no ha respondido con horarios disponibles para *")
+			buf.WriteString(station.Name)
+			buf.WriteString("* el *")
+			buf.WriteString(day)
+			buf.WriteString("*.")
+		}
+
 		texts = append(texts, buf.String())
 	}
 
@@ -351,7 +359,7 @@ func Run() error {
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, text)
 			msg.ParseMode = tgbotapi.ModeMarkdown
 			if _, err := bot.Send(msg); err != nil {
-				return err
+				fmt.Println(err)
 			}
 		}
 	}
