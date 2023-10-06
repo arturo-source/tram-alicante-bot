@@ -55,6 +55,7 @@ func Schedules(stationId, day string) (StationSchedule, error) {
 	if err != nil {
 		return StationSchedule{}, err
 	}
+
 	if strings.Contains(dataResp.HTML, "No hi ha resultats disponibles") {
 		currDay := time.Now()
 		err = fmt.Errorf(
@@ -73,34 +74,38 @@ mm-dd ------> %s
 func scrapeStationSchedules(html string) StationSchedule {
 	var ss StationSchedule
 
+	extractBetweenTokens := func(content, startToken, endToken string) string {
+		startIndex := strings.Index(content, startToken) + len(startToken)
+		endIndex := strings.Index(content[startIndex:], endToken)
+
+		return content[startIndex : startIndex+endIndex]
+	}
+
 	extractLineName := func(line string) string {
 		startLineNameToken := `<span class="c-negro fs--18 fw--600">`
-		startLineName := strings.Index(line, startLineNameToken) + len(startLineNameToken)
 		endLineNameToken := `</span>`
-		endLineName := strings.Index(line[startLineName:], endLineNameToken)
 
-		return line[startLineName : startLineName+endLineName]
+		return extractBetweenTokens(line, startLineNameToken, endLineNameToken)
 	}
+
 	extractHours := func(line string) []string {
 		var hours []string
 
 		hoursHtmlToken := `<div class="df-s">`
-		hoursHtmlSplited := strings.Split(line, hoursHtmlToken)
-		for i := 2; i < len(hoursHtmlSplited); i++ {
-			startHourToken := `<p class="hora">`
-			startHour := strings.Index(hoursHtmlSplited[i], startHourToken) + len(startHourToken)
-			endHourToken := `</p>`
-			endHour := strings.Index(hoursHtmlSplited[i][startHour:], endHourToken)
-			hour := hoursHtmlSplited[i][startHour : startHour+endHour]
+		hoursSplited := strings.Split(line, hoursHtmlToken)
 
-			minuteToken := `<p class="minuto`
-			minuteSplited := strings.Split(hoursHtmlSplited[i], minuteToken)
-			for j := 0; j < len(minuteSplited); j++ {
+		for i := 2; i < len(hoursSplited); i++ {
+			startHourToken := `<p class="hora">`
+			endHourToken := `</p>`
+			hour := extractBetweenTokens(hoursSplited[i], startHourToken, endHourToken)
+
+			minutesToken := `<p class="minuto`
+			minutesSplited := strings.Split(hoursSplited[i], minutesToken)
+
+			for j := 1; j < len(minutesSplited); j++ {
 				startMinuteToken := `">`
-				startMinute := strings.Index(minuteSplited[j], startMinuteToken) + len(startMinuteToken)
 				endMinuteToken := `</p>`
-				endMinute := strings.Index(minuteSplited[j][startMinute:], endMinuteToken)
-				minute := minuteSplited[j][startMinute : startMinute+endMinute]
+				minute := extractBetweenTokens(minutesSplited[j], startMinuteToken, endMinuteToken)
 
 				hours = append(hours, hour+":"+minute)
 			}
