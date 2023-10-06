@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	SERVICE_URL = "https://www.tramalicante.es/wp-admin/admin-ajax.php"
+	SERVICE_URL = "https://www.tramalacant.es/wp-admin/admin-ajax.php"
 )
 
 func DoRequest(v url.Values) ([]byte, error) {
