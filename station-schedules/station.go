@@ -15,23 +15,12 @@ type response struct {
 }
 
 type StationSchedule struct {
-	Lines []struct {
-		LineName string
-		Hours    []string
-	}
+	Lines []Line
 }
 
-func newLine(lineName string, hours []string) struct {
+type Line struct {
 	LineName string
 	Hours    []string
-} {
-	return struct {
-		LineName string
-		Hours    []string
-	}{
-		LineName: lineName,
-		Hours:    hours,
-	}
 }
 
 func Schedules(stationId, day string) (StationSchedule, error) {
@@ -120,7 +109,7 @@ func scrapeStationSchedules(html string) StationSchedule {
 		lineName := extractLineName(lines[i])
 		hours := extractHours(lines[i])
 
-		ss.Lines = append(ss.Lines, newLine(lineName, hours))
+		ss.Lines = append(ss.Lines, Line{lineName, hours})
 	}
 
 	return ss
