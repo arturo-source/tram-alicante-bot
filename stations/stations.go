@@ -1,8 +1,8 @@
 package stations
 
 import (
+	_ "embed"
 	"encoding/json"
-	"os"
 	"strings"
 )
 
@@ -14,20 +14,13 @@ type Estacion struct {
 	levDistance int
 }
 
+//go:embed stations.json
+var stationsJson string
+
 func AllStations() ([]Estacion, error) {
-	const stopsFileName = "stations/stations.json"
 	stops := []Estacion{}
-
-	file, err := os.ReadFile(stopsFileName)
-	if err != nil {
-		return stops, err
-	}
-	err = json.Unmarshal(file, &stops)
-	if err != nil {
-		return stops, err
-	}
-
-	return stops, nil
+	err := json.Unmarshal([]byte(stationsJson), &stops)
+	return stops, err
 }
 
 func MostSimilarStations(station string) ([]Estacion, error) {
